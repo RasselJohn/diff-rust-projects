@@ -1,16 +1,26 @@
-use actix_web::{web, App, HttpServer};
+// hide console
+#![windows_subsystem = "windows"]
 
-mod forms;
-mod parser;
-mod views;
+mod game;
+mod generator;
 
 
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new()
-        .route("/day", web::get().to(views::temperature_for_day_view))
-        .route("/week", web::get().to(views::temperature_for_week_view)))
-        .bind("0.0.0.0:8080")?
-        .run()
-        .await
+use fltk::*;
+
+use game::Game;
+
+
+fn main() {
+    let app = app::App::default();
+    let mut main_window = Game::new();
+
+    main_window.game_window.end();
+    main_window.game_window.show();
+
+    main_window.add_events();
+    main_window.add_button_events();
+
+    while app.wait() {
+        main_window.check_event_loop();
+    }
 }
