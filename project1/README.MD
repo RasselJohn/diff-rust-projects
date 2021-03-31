@@ -4,8 +4,15 @@ Language: **Rust**
 Tools: **Actix Framework, Docker**
 
 There was used https://weatherapi.com/ - it requires an API-key.  
-For running Docker(API-key should set in compose-file(!)): `docker build -f deploy/docker/Dockerfile -t temperature .`  
+For running Docker (API-key should set in compose-file(!)): 
+
+```docker build -f deploy/docker/Dockerfile -t temperature .``` 
+
 In this case service will work on http://localhost:8080/.  
+
+Example of API requests is into `main.http`
+
+----
 
 Task:
 ---------------

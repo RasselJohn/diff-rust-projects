@@ -1,4 +1,5 @@
 use std::env;
+
 use reqwest::Client;
 use serde_json::Value;
 
@@ -12,7 +13,6 @@ pub async fn get_temperature_for_day(city: &String, date: &String) -> Result<Str
 
     let response = request.send().await?;
     let response_status = response.status();
-    println!("{}", response_status);
 
     if response_status != 200 {
         return Ok(format!("Ошибка API. Пожалуйста, попробуйте позднее."));
@@ -20,10 +20,7 @@ pub async fn get_temperature_for_day(city: &String, date: &String) -> Result<Str
 
     let response_in_vec = response.bytes().await?.to_vec();
     let response_data = String::from_utf8_lossy(&response_in_vec);
-    // println!("response: {} ", response_data);
-
     let weather_collection: Value = serde_json::from_str(&response_data)?;
-
 
     Ok(format!("Date:{}, temperature = {}", date, weather_collection["forecast"]["forecastday"][0]["day"]["avgtemp_c"]))
 }
@@ -36,22 +33,18 @@ pub async fn get_temperatures_for_week(city: &String) -> Result<String> {
 
     let response = request.send().await?;
     let response_status = response.status();
-    println!("{}", response_status);
 
     if response_status != 200 {
-        return Ok(format!("Ошибка API. Пожалуйста, попробуйте позднее."))
+        return Ok(format!("Ошибка API. Пожалуйста, попробуйте позднее."));
     }
 
     let response_in_vec = response.bytes().await?.to_vec();
     let response_data = String::from_utf8_lossy(&response_in_vec);
-    // println!("response: {} ", response_data);
-
     let weather_collection: Value = serde_json::from_str(&response_data)?;
     let mut temperatures: [String; 5] = Default::default();
     for i in 0..5 {
         temperatures[i] = format!("{}", weather_collection["forecast"]["forecastday"][i]["day"]["avgtemp_c"]);
     }
-    // println!("arr: {:?} ", temperatures);
 
     Ok(format!("Temperatures for week = {:?}", temperatures))
 }
@@ -59,6 +52,6 @@ pub async fn get_temperatures_for_week(city: &String) -> Result<String> {
 fn get_api_key() -> String {
     match env::var("WEATHER_API_KEY") {
         Ok(val) => val,
-        Err(_e) => String::from(""),
+        Err(_e) => panic!("Firstly should set env variable WEATHER_API_KEY!"),
     }
 }
