@@ -14,10 +14,7 @@ impl Generator {
 
         for i in 0..LIMIT {
             generator.numbers[i] = i as i8;
-            // generator.numbers[i] = (i as i8) + 1 as i8;
         }
-        // generator.numbers[14] = 0;
-        // generator.numbers[15] = 15;
         generator.generate_suit();
         generator
     }

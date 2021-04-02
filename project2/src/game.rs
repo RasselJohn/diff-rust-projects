@@ -1,5 +1,4 @@
 use fltk::*;
-// use fltk::{button, enums, window, group, WidgetExt};
 
 use crate::generator::{Generator};
 
@@ -77,22 +76,16 @@ impl Game {
             }
         }
 
-        // self.num_buttons_layer.redraw();
         self.game_window.redraw();
 
         self.add_button_events();
     }
 
     pub fn change_button_position(&mut self, num: i8) {
-        // // println!("val :{} ", num);
-        // println!("GENERATOR :{:?} ", self.num_generator);
-        // println!("NUM :{:?} ", num);
         let pressed_num_index: usize = self.num_generator.index(num).unwrap();
-        // println!("PRESSED INDEX:{} ", pressed_num_index);
         let empty_num_index: i8 = self.num_generator.find_empty_element(
             pressed_num_index
         );
-        // println!("EMPTY :{} ", empty_num_index);
 
         if empty_num_index == -1 {
             return;

@@ -2,6 +2,6 @@
 Languages: **Rust**  
 Tools: **FLTK GUI Framework**
 
-Classical 15! game.  
+Classical TagGames (game 15!).  
 Application's exe-file is into `release` catalog.
 
