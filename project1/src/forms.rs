@@ -1,4 +1,4 @@
-use serde::{Deserialize, Serialize};
+use serde_derive::{Deserialize, Serialize};
 
 #[derive(Deserialize)]
 pub struct DayForm {
@@ -10,7 +10,6 @@ pub struct DayForm {
 pub struct WeekForm {
     pub city: String,
 }
-
 
 #[derive(Serialize, Deserialize)]
 pub struct ResponseForm {
