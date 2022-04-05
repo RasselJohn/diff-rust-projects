@@ -38,6 +38,7 @@ impl Generator {
                     }
                 }
             }
+
             if check_value % 2 == 0 {
                 break;
             }
@@ -53,6 +54,7 @@ impl Generator {
         if current_index % 4 != 0 && self.numbers[(current_index - 1)] == 0 {
             index = Some(current_index - 1);
         }
+        
         // check right element
         else if (current_index + 1) % 4 != 0 && self.numbers[(current_index + 1) as usize] == 0 {
             index = Some(current_index + 1);

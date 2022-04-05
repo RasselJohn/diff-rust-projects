@@ -21,7 +21,6 @@ pub struct Game {
 }
 
 impl Game {
-    // Public
     pub fn new() -> Game {
         // main window
         let mut game_window: window::DoubleWindow = window::Window::default();
@@ -75,7 +74,6 @@ impl Game {
         }
 
         self.game_window.redraw();
-
         self.add_button_events();
     }
 
@@ -93,7 +91,6 @@ impl Game {
         self.num_buttons[empty_num_index as usize].set_label(&num.to_string());
 
         self.num_buttons[empty_num_index as usize].emit(self.sender, Message::Step(num));
-
         self.num_generator
             .swap(pressed_num_index, empty_num_index as usize);
     }
@@ -103,7 +100,6 @@ impl Game {
     }
 
     pub fn add_events(&mut self) {
-        // add events
         self.new_game_button.emit(self.sender, Message::NewGame);
         self.help_button.emit(self.sender, Message::Help);
     }
@@ -125,9 +121,7 @@ impl Game {
     pub fn check_event_loop(&mut self) {
         if let Some(msg) = self.receiver.recv() {
             match msg {
-                Message::NewGame => {
-                    self.start_new_game_callback();
-                }
+                Message::NewGame => self.start_new_game_callback(),
 
                 Message::Step(label) => {
                     self.change_button_position(label);
@@ -163,6 +157,7 @@ impl Game {
         menu_layout.end();
         menu_layout.set_type(group::PackType::Horizontal);
         menu_layout.auto_layout();
+
         (new_game_button, help_button)
     }
 
