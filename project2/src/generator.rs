@@ -1,16 +1,18 @@
 // Generate suit of numbers.
-use rand::{thread_rng, seq::SliceRandom};
+use rand::{seq::SliceRandom, thread_rng};
 
 pub const LIMIT: usize = 16;
 
 #[derive(Debug)]
 pub struct Generator {
-    pub numbers: [i8; LIMIT]
+    pub numbers: [i8; LIMIT],
 }
 
 impl Generator {
     pub fn new() -> Generator {
-        let mut generator = Generator { numbers: [0; LIMIT] };
+        let mut generator = Generator {
+            numbers: [0; LIMIT],
+        };
 
         for i in 0..LIMIT {
             generator.numbers[i] = i as i8;
@@ -51,7 +53,6 @@ impl Generator {
         if current_index % 4 != 0 && self.numbers[(current_index - 1)] == 0 {
             index = Some(current_index - 1);
         }
-
         // check right element
         else if (current_index + 1) % 4 != 0 && self.numbers[(current_index + 1) as usize] == 0 {
             index = Some(current_index + 1);
@@ -69,7 +70,7 @@ impl Generator {
 
         match index {
             Some(t) => t as i8,
-            None => -1
+            None => -1,
         }
     }
 
@@ -91,4 +92,3 @@ impl Generator {
         self.numbers[..numbers_count] == temp_collection[1..]
     }
 }
-

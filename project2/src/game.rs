@@ -1,6 +1,6 @@
-use fltk::*;
+use fltk::{app, button, dialog, enums, group, prelude::*, window};
 
-use crate::generator::{Generator};
+use crate::generator::Generator;
 
 #[derive(Clone, Copy)]
 pub enum Message {
@@ -30,7 +30,6 @@ impl Game {
         game_window.set_color(enums::Color::from_rgb(47, 88, 78));
         game_window.set_pos(700, 400);
 
-
         let mut main_layout = group::Pack::new(10, 10, 300, 300, "");
         main_layout.set_spacing(10);
 
@@ -42,7 +41,6 @@ impl Game {
 
         main_layout.end();
         main_layout.set_type(group::PackType::Vertical);
-
 
         let (sender, receiver) = app::channel::<Message>();
 
@@ -83,9 +81,7 @@ impl Game {
 
     pub fn change_button_position(&mut self, num: i8) {
         let pressed_num_index: usize = self.num_generator.index(num).unwrap();
-        let empty_num_index: i8 = self.num_generator.find_empty_element(
-            pressed_num_index
-        );
+        let empty_num_index: i8 = self.num_generator.find_empty_element(pressed_num_index);
 
         if empty_num_index == -1 {
             return;
@@ -98,7 +94,8 @@ impl Game {
 
         self.num_buttons[empty_num_index as usize].emit(self.sender, Message::Step(num));
 
-        self.num_generator.swap(pressed_num_index, empty_num_index as usize);
+        self.num_generator
+            .swap(pressed_num_index, empty_num_index as usize);
     }
 
     pub fn is_end_game(&self) -> bool {
@@ -135,9 +132,8 @@ impl Game {
                 Message::Step(label) => {
                     self.change_button_position(label);
                     if self.is_end_game() {
-                        let variant = dialog::choice(
-                            720, 500, "You win! Start new game ?", "Yes", "No", "",
-                        );
+                        let variant =
+                            dialog::choice(720, 500, "You win! Start new game ?", "Yes", "No", "");
 
                         if variant == 0 {
                             self.start_new_game_callback();
@@ -148,10 +144,10 @@ impl Game {
                 }
 
                 Message::Help => dialog::message(
-                    720, 500,
-                    "Press by button for replace on empty place. \n \
-                        ProgUs! , 2021.",
-                )
+                    720,
+                    500,
+                    "Press by button for replace on empty place. \n ProgUs! , 2022.",
+                ),
             }
         }
     }
@@ -175,7 +171,13 @@ impl Game {
         let mut main_button_layout = group::Pack::default();
 
         for i in 0..4 {
-            let mut buttons_layout = group::Pack::new(0, 20 + (i as i32 % 4 + 20), 300, 45 + (i as i32 % 4 + 20), "");
+            let mut buttons_layout = group::Pack::new(
+                0,
+                20 + (i as i32 % 4 + 20),
+                300,
+                45 + (i as i32 % 4 + 20),
+                "",
+            );
 
             for j in i * 4..(i * 4) + 4 {
                 let mut pb = button::Button::default()
